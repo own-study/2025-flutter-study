@@ -17,7 +17,7 @@
 
 - start, end, center, stretch, baseline가 있고 css의 flex items-[...] 속성과 유사
 
-### SageArea 위젯
+### SafeArea 위젯
 
 - 과거 스마트폰 스크린이 모두 정사각형 당시에는 문제 없었으나 스마트폰 베젤이 최소화 되면서 모서리가 둥근 형태가 되어 SystemUI를 피해서 안전영역을 잡는 작업이 필요해짐
 
