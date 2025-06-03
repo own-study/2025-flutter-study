@@ -1,78 +1,97 @@
-# 블로그 웹 앱
-## 학습 포인트
-- WebView Controller 개념
-- 외부 패키지 의존성 설치
-- [Pub.dev](https://pub.dev) 플러터 라이브러리 검색 사이트
-- Semantic Versioning 이란? [참고](https://semver.org/)
-- Callback 함수
+# Flutter WebView 블로그 앱 개발 가이드
 
-## Semantic Version
-버전 구성 형태 `{major}.{minor}.{patch}`
+## 📚 학습 목표
 
-- Major 버전
-  - 하위 호환성 깨짐
-  - 기존 API 변경 및 큰 변경사항
-  - 중요 변경 사항
-- Minor 버전
-  - 하위 호환성 유지
-  - 주로 기능 추가
-  - 기존 코드에 영향을 주지 않는 경우
-- Patch 버전
-  - 하위 호환성 유지
-  - 기존 기능 버그 수정
+이번 실습을 통해 다음 개념들을 익혀보겠습니다:
 
-### 패키지 버저닝 업데이트 케이스
-> `^4.3.2` 로 표기된 버전
-- `4.3.3` 버전 출시될 경우 자동 업뎃
-- `4.4.0` 버전 출시될 경우 자동 업뎃
-- `5.0.0` 버전 출시될 경우 업뎃 하지 않음
-- Major 버전만 고정된 상태에서 최신버전을 따름
+- **WebView Controller** 개념과 활용
+- **외부 패키지** 의존성 설치 방법
+- **[Pub.dev](https://pub.dev)** Flutter 라이브러리 검색 사이트 활용
+- **Semantic Versioning** 개념 이해
+- **Callback 함수** 구현
 
-## [Pub.dev](https://pub.dev)
-> [npm](https://www.npmjs.com/) 같은 곳
+## 🔢 Semantic Versioning 이해하기
 
-## 블로그 웹 앱 실습
-### 1. WebView 패키지 추가
+### 버전 구성 형태
+```
+{major}.{minor}.{patch}
+```
 
-**[Pub.dev](https://pub.dev) 에 검색창에 `'webview'` 검색**<br/><br/>
-![image](https://github.com/user-attachments/assets/ed232313-9e17-48de-8af0-da2a6ec7d220)
+| 버전 타입 | 설명 | 예시 |
+|-----------|------|------|
+| **Major** | 하위 호환성이 깨지는 중대한 변경 | `1.0.0` → `2.0.0` |
+| **Minor** | 하위 호환성을 유지하며 기능 추가 | `1.0.0` → `1.1.0` |
+| **Patch** | 버그 수정 및 소규모 개선 | `1.0.0` → `1.0.1` |
 
-----
+### 패키지 버전 업데이트 규칙
 
-**패키지 명이 `'webview_flutter'` 이면서 패키지 개발자(제공자)명이 `'flutter.dev'`이면서 인증마크가 달린 목록 아이템을 선택**<br/><br/>
-![image](https://github.com/user-attachments/assets/6999cf08-20a1-4c04-b208-fbfeae093be3)
+`^4.3.2`로 표기된 경우:
+- ✅ `4.3.3` → 자동 업데이트 (Patch)
+- ✅ `4.4.0` → 자동 업데이트 (Minor)  
+- ❌ `5.0.0` → 업데이트 안함 (Major)
 
-----
+> **Major 버전만 고정**하고 최신 버전을 자동으로 따라가는 방식
 
-**클립보드 아이콘 버튼을 클릭하여 패키지명 패키지버전 텍스트 클립보드로 복사**<br/><br/>
-![image](https://github.com/user-attachments/assets/2a66a7ca-d2e9-4761-a877-f627ceae30d4)
+## 🌐 Pub.dev 패키지 저장소
 
-----
+[Pub.dev](https://pub.dev)는 Flutter/Dart의 공식 패키지 저장소입니다.
+- JavaScript의 [npm](https://www.npmjs.com/)과 유사한 역할
+- 검증된 패키지들을 쉽게 찾고 설치 가능
 
-**Android Studio, Flutter Project로 돌아와서, 프로젝트 루트에 `pubspec.yaml` 파일 열기**  
-**`pubspec.yaml`의 `dependencies` 값이 있는 곳으로 화면 이동**  
-**해당 `dependencies` 아래에 들여쓰기 하여 클립보드 내용을 붙여넣기**  
-**오른쪽 상단 `Pub get` 버튼을 누르기**<br/><br/>
-![image](https://github.com/user-attachments/assets/990c5094-d57c-4f50-96e4-dc0d4cdbe971)
+## 🛠️ 블로그 웹 앱 실습
 
-### 2. 기존 페이지 코드 분리 및 작성
-> `lib` 폴더 안에 `home_screen.dart` 등 원하는 파일명(확장자는 유지) 생성
-> 해당 파일에 `StatelessWidget` 위젯 상속받아 `HomeScreen` class 작성, 코드스니펫 `stless`도 사용 가능
+### 1️⃣ WebView 패키지 설치
+
+#### 패키지 검색 및 선택
+1. **[Pub.dev](https://pub.dev) 접속**
+2. **검색창에 `webview` 입력**
+
+![WebView 검색](https://github.com/user-attachments/assets/ed232313-9e17-48de-8af0-da2a6ec7d220)
+
+3. **`webview_flutter` 패키지 선택**
+   - 개발자: `flutter.dev` (공식)
+   - 인증 마크 확인 ✅
+
+![패키지 선택](https://github.com/user-attachments/assets/6999cf08-20a1-4c04-b208-fbfeae093be3)
+
+#### 패키지 설치
+1. **클립보드 아이콘** 클릭하여 패키지 정보 복사
+
+![패키지 복사](https://github.com/user-attachments/assets/2a66a7ca-d2e9-4761-a877-f627ceae30d4)
+
+2. **`pubspec.yaml` 파일 열기**
+3. **`dependencies` 섹션에 패키지 추가**
+4. **`Pub get` 버튼 클릭**
+
+![패키지 설치](https://github.com/user-attachments/assets/990c5094-d57c-4f50-96e4-dc0d4cdbe971)
+
+```yaml
+dependencies:
+  flutter:
+    sdk: flutter
+  webview_flutter: ^4.4.2  # 추가된 패키지
+```
+
+### 2️⃣ 프로젝트 구조 설정
+
+#### 파일 분리 및 기본 구조 생성
 
 ```dart
-// file:home_screen.dart
+// file: lib/home_screen.dart
 import 'package:flutter/material.dart';
 
 class HomeScreen extends StatelessWidget {
-  const ({super.key});
+  const HomeScreen({super.key});
 
   @override
   Widget build(BuildContext context) {
     return const Placeholder();
   }
 }
+```
 
-// file:main.dart
+```dart
+// file: lib/main.dart
 import 'package:flutter/material.dart';
 import 'package:your_app_package_name/home_screen.dart';
 
@@ -80,17 +99,15 @@ void main() {
   runApp(
     MaterialApp(
       home: HomeScreen(),
-    ),  // MaterialApp
+    ),
   );
 }
 ```
 
-### 3. 페이지 `appBar` UI 구성
-> `Scaffold` 위젯 사용하여, `appBar`등 구성요소 추가  
-> `appBar` named Parameter에 `AppBar` 위젯 구성
+### 3️⃣ AppBar UI 구성
 
 ```dart
-// file:home_screen.dart
+// file: lib/home_screen.dart
 import 'package:flutter/material.dart';
 
 class HomeScreen extends StatelessWidget {
@@ -101,129 +118,207 @@ class HomeScreen extends StatelessWidget {
     return Scaffold(
       appBar: AppBar(
         backgroundColor: Colors.orange,
-        title: Text("My Home Screen Title"),
+        title: Text("코드팩토리 블로그"),
         centerTitle: true,
-      ),  // AppBar
-    );  // Scaffold
+      ),
+    );
   }
 }
 ```
 
-### 4. 페이지 WebView 구성
-> 페이지 `body` named Parameter에 `WebViewWidget` 위젯 생성 및 추가
-> `WebViewWidget` 위젯 생성시 named Parameter에 필수 값인 `controller` 추가
->
-> `main.dart` 에서 `WidgetsFlutterBinding.ensureInitialized()` 코드를 추가하여 플러터 프레임워크 실행될때 까지 대기
+### 4️⃣ WebView 기본 설정
+
+#### Flutter 프레임워크 초기화 추가
 
 ```dart
-// file:home_screen.dart
-import 'package:flutter/material.dart';
-import 'package:webview_flutter/webview_flutter.dart';
-
-class HomeScreen extends StatelessWidget {
-  WebViewController controller = WebViewController();  // added
-
-  HomeScreen({super.key}); // modified
-
-  @override
-  Widget build(BuildContext context) {
-    return Scaffold(
-      appBar: AppBar(...),
-      body: WebViewWidget(controller: controller) // added
-    );
-  }
-}
-
-// file:main.dart
+// file: lib/main.dart
 import 'package:flutter/material.dart';
 import 'package:your_app_package_name/home_screen.dart';
 
 void main() {
-  WidgetsFlutterBinding.ensureInitialized(); // added
-
+  WidgetsFlutterBinding.ensureInitialized(); // 🔥 추가
+  
   runApp(
     MaterialApp(
       home: HomeScreen(),
-    ),  // MaterialApp
+    ),
   );
 }
 ```
 
-### 5. WebView Controller, Web Page 이동
-> `WebViewController` 컨트롤러 메소드에 `loadRequest` 를 호출  
-> `loadRequest` 호출시 이동하고자 하는 Web Page `Uri` 값 입력  
->
-> `..` 같은 경우 리턴값이 메소드의 리턴값이 아닌 메소드 호출 대상을 리턴, 아래와 같은 예제는 `WebViewController()`를 리턴
+#### WebView Controller 설정
 
 ```dart
-// file:home_screen.dart
+// file: lib/home_screen.dart
 import 'package:flutter/material.dart';
 import 'package:webview_flutter/webview_flutter.dart';
 
-final homeUrl = Uri.parse('https://blog.codefactory.ai'); // added
+class HomeScreen extends StatelessWidget {
+  WebViewController controller = WebViewController(); // 🔥 추가
+
+  HomeScreen({super.key}); // const 제거
+
+  @override
+  Widget build(BuildContext context) {
+    return Scaffold(
+      appBar: AppBar(
+        backgroundColor: Colors.orange,
+        title: Text("코드팩토리 블로그"),
+        centerTitle: true,
+      ),
+      body: WebViewWidget(controller: controller), // 🔥 추가
+    );
+  }
+}
+```
+
+### 5️⃣ 웹 페이지 로드
+
+```dart
+// file: lib/home_screen.dart
+import 'package:flutter/material.dart';
+import 'package:webview_flutter/webview_flutter.dart';
+
+final homeUrl = Uri.parse('https://blog.codefactory.ai'); // 🔥 추가
 
 class HomeScreen extends StatelessWidget {
   WebViewController controller = WebViewController()
-  ..loadRequest(homeUrl); // added
+    ..loadRequest(homeUrl); // 🔥 추가
 
   HomeScreen({super.key});
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(...),
-      body: WebViewWidget(controller: controller)
+      appBar: AppBar(
+        backgroundColor: Colors.orange,
+        title: Text("코드팩토리 블로그"),
+        centerTitle: true,
+      ),
+      body: WebViewWidget(controller: controller),
     );
   }
 }
 ```
 
-### 6. 기타 controller를 이용한 WebView 제어
-> `AppBar` 위젯상 `actions` named Parameter에 `IconButton` 위젯 이용 `onPressed`, `icon`등 named Parameter 구성
-> 
-> `onPressed` 콜백 이벤트에 `controller`를 이용한 WebView 제어
->
-> `homeUrl`로 다시 이동 하는 로직을 만들기
-
+### 6️⃣ 홈 버튼 기능 추가
 
 ```dart
-// file:home_screen.dart
-...
-      appBar: AppBar(
-        ...
-        actions: [ // added
-          IconButton(
-              onPressed: (){
-                controller.loadRequest(homeUrl);
-              },
-              icon: Icon(
-                Icons.home,
-              ),  // Icon
-          )
-        ],
-      ),
-...
+// file: lib/home_screen.dart
+// ... 기존 코드
+
+@override
+Widget build(BuildContext context) {
+  return Scaffold(
+    appBar: AppBar(
+      backgroundColor: Colors.orange,
+      title: Text("코드팩토리 블로그"),
+      centerTitle: true,
+      actions: [ // 🔥 추가
+        IconButton(
+          onPressed: () {
+            controller.loadRequest(homeUrl); // 홈으로 이동
+          },
+          icon: Icon(Icons.home),
+        ),
+      ],
+    ),
+    body: WebViewWidget(controller: controller),
+  );
+}
 ```
 
-### 7. JavascriptMode 이해
-> 아무런 정의 하지 않는 경우  
-> Android는 JavascriptMode가 `disabled` 상태  
-> iOS는 JavascriptMode가 `unrestricted` 상태
->
-> 예제 코드상 블로그의 게시글 상세 페이지에 유튜브 영상이 작동하지 않는 문제를 해결하는 방법  
-> JavascriptMode를  `unrestricted` 상태로 적용하기
+### 7️⃣ JavaScript 모드 설정
+
+#### 문제 상황
+- **Android**: 기본적으로 JavaScript `disabled`
+- **iOS**: 기본적으로 JavaScript `unrestricted`
+- 블로그의 YouTube 영상이 Android에서 재생되지 않는 문제
+
+#### 해결 방법
 
 ```dart
-// file:home_screen.dart
-...
+// file: lib/home_screen.dart
+class HomeScreen extends StatelessWidget {
+  WebViewController controller = WebViewController()
+    ..setJavaScriptMode(JavaScriptMode.unrestricted) // 🔥 추가
+    ..loadRequest(homeUrl);
+
+  HomeScreen({super.key});
+  
+  // ... 나머지 코드
+}
+```
+
+## 🔧 WebView Controller 주요 메서드
+
+| 메서드 | 기능 | 사용 예시 |
+|--------|------|-----------|
+| `loadRequest()` | 특정 URL 로드 | `controller.loadRequest(Uri.parse('https://...'))` |
+| `goBack()` | 이전 페이지로 이동 | `controller.goBack()` |
+| `goForward()` | 다음 페이지로 이동 | `controller.goForward()` |
+| `reload()` | 현재 페이지 새로고침 | `controller.reload()` |
+| `setJavaScriptMode()` | JavaScript 모드 설정 | `controller.setJavaScriptMode(JavaScriptMode.unrestricted)` |
+
+## 🎯 핵심 포인트
+
+### Cascade Notation (`..`)
+```dart
+WebViewController controller = WebViewController()
+  ..setJavaScriptMode(JavaScriptMode.unrestricted)
+  ..loadRequest(homeUrl);
+```
+- `..`는 메서드 체이닝을 위한 Dart 문법
+- 각 메서드의 반환값이 아닌 **원본 객체**를 반환
+- 위 예제에서는 `WebViewController()` 인스턴스를 반환
+
+### Callback 함수
+```dart
+IconButton(
+  onPressed: () { // 이것이 Callback 함수
+    controller.loadRequest(homeUrl);
+  },
+  icon: Icon(Icons.home),
+)
+```
+- 특정 이벤트 발생 시 호출되는 함수
+- 사용자 상호작용에 반응하는 핵심 메커니즘
+
+## 🚀 완성된 코드
+
+```dart
+// file: lib/home_screen.dart
+import 'package:flutter/material.dart';
+import 'package:webview_flutter/webview_flutter.dart';
+
+final homeUrl = Uri.parse('https://blog.codefactory.ai');
 
 class HomeScreen extends StatelessWidget {
   WebViewController controller = WebViewController()
-  ..setJavaScriptMode(JavaScriptMode.unrestricted) // added
-  ..loadRequest(homeUrl);
+    ..setJavaScriptMode(JavaScriptMode.unrestricted)
+    ..loadRequest(homeUrl);
 
-  
-  ...
+  HomeScreen({super.key});
+
+  @override
+  Widget build(BuildContext context) {
+    return Scaffold(
+      appBar: AppBar(
+        backgroundColor: Colors.orange,
+        title: Text("코드팩토리 블로그"),
+        centerTitle: true,
+        actions: [
+          IconButton(
+            onPressed: () {
+              controller.loadRequest(homeUrl);
+            },
+            icon: Icon(Icons.home),
+          ),
+        ],
+      ),
+      body: WebViewWidget(controller: controller),
+    );
+  }
 }
 ```
 
