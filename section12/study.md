@@ -1,4 +1,4 @@
-# StatelessWidget vs StatefulWidget
+# StatefulWidget
 
 ## 📋 개요
 
