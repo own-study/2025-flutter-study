@@ -6,14 +6,15 @@ Flutter에서 UI를 구성하는 두 가지 기본 위젯인 `StatelessWidget`�
 
 ## 🔍 기본 개념 비교
 
+### Widget
+- **불변(Immutable)**
+
 ### StatelessWidget
-- **불변(Immutable)** 위젯
 - 한 번 생성되면 상태가 변경되지 않음
 - `build()` 메서드가 한 번만 호출됨
 - React의 **Pure Component**와 유사
 
 ### StatefulWidget
-- **가변(Mutable)** 위젯
 - 내부 상태가 변경될 수 있음
 - `setState()` 호출 시 `build()` 메서드가 재호출됨
 - React의 **useState Hook을 사용하는 Component**와 유사
