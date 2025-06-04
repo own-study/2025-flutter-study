@@ -94,7 +94,7 @@ class HomeScreen extends StatelessWidget {
 ```dart
 class HomeScreen extends StatefulWidget {
   @override
-  State<StatefulWidget> createState() => _HomeScreenState();
+  State<HomeScreen> createState() => _HomeScreenState();
 }
 
 class _HomeScreenState extends State<HomeScreen> {
